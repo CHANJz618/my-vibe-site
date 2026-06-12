@@ -335,6 +335,60 @@
       animation: none;
     }
 
+    .nav-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f8fafc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-img {
+      max-width: 50vw;
+      max-height: 50vh;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-img {
+      transform: scale(1);
+    }
+
     .contact {
       position: relative;
       z-index: 1;
@@ -413,6 +467,8 @@
   </style>
 </head>
 <body>
+  <a class="nav-btn" id="navBtn">同城代打</a>
+
   <div class="particles" id="particles">
     <div class="particle"></div>
     <div class="particle"></div>
@@ -476,7 +532,7 @@
     </div>
   </section>
 
-  <section class="contact">
+  <section class="contact" id="contact">
     <h2>Contact</h2>
     <div class="contact-divider"></div>
     <div class="contact-card">
@@ -494,6 +550,10 @@
   <footer>
     <p>&copy; 2025 CHAN</p>
   </footer>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <img class="modal-img" src="come-hit-me.png" alt="来打我呀">
+  </div>
 
   <script>
     (function() {
@@ -537,6 +597,22 @@
       }
 
       setTimeout(type, 1200);
+
+      // Nav button: scroll to contact and show modal
+      const navBtn = document.getElementById('navBtn');
+      const modalOverlay = document.getElementById('modalOverlay');
+
+      navBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function() {
+          modalOverlay.classList.add('active');
+        }, 600);
+      });
+
+      modalOverlay.addEventListener('click', function() {
+        modalOverlay.classList.remove('active');
+      });
     })();
   </script>
 </body>
