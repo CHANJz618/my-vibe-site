@@ -243,9 +243,90 @@
       background: rgba(255, 255, 255, 0.07);
     }
 
-    @media (max-width: 640px) {
+    .projects {
+      position: relative;
+      z-index: 1;
+      padding: 0 2rem 120px;
+    }
+
+    .projects h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .projects-divider {
+      width: 60px;
+      height: 3px;
+      margin: 0 auto 3.5rem;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #a764ff, #50dcff, #ff82c8);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      text-align: left;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: default;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-card .project-info {
+      padding: 1.25rem 1.5rem 1.5rem;
+    }
+
+    .project-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin: 0;
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    @media (max-width: 768px) {
       .skills-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
       }
     }
   </style>
@@ -283,6 +364,34 @@
       <div class="skill-card" style="--accent: #6366f1; --accent-glow: rgba(99, 102, 241, 0.25);">Python</div>
       <div class="skill-card" style="--accent: #22c55e; --accent-glow: rgba(34, 197, 94, 0.25);">Node.js</div>
       <div class="skill-card" style="--accent: #ec4899; --accent-glow: rgba(236, 72, 153, 0.25);">Figma</div>
+    </div>
+  </section>
+
+  <section class="projects">
+    <h2>Projects</h2>
+    <div class="projects-divider"></div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="https://picsum.photos/400/250?random=1" alt="Project Alpha" loading="lazy">
+        <div class="project-info">
+          <h3>Project Alpha</h3>
+          <p>一款极简风格的任务管理应用，支持拖拽排序和实时协作。</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <img src="https://picsum.photos/400/250?random=2" alt="Project Beta" loading="lazy">
+        <div class="project-info">
+          <h3>Project Beta</h3>
+          <p>基于 AI 的智能内容生成平台，帮助创作者快速产出优质文案。</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <img src="https://picsum.photos/400/250?random=3" alt="Project Gamma" loading="lazy">
+        <div class="project-info">
+          <h3>Project Gamma</h3>
+          <p>数据可视化仪表盘，将复杂业务指标转化为直观易懂的图表。</p>
+        </div>
+      </div>
     </div>
   </section>
 
