@@ -174,16 +174,31 @@
       animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    p {
+    .hero-subtitle {
       font-size: clamp(1rem, 2.5vw, 1.35rem);
       font-weight: 400;
       color: #94a3b8;
       line-height: 1.6;
       max-width: 600px;
       margin: 0 auto;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+      opacity: 1;
+      transform: none;
+      min-height: 1.6em;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: #94a3b8;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     @keyframes fadeInUp {
@@ -416,7 +431,7 @@
   <section class="hero">
     <div class="container">
       <h1>Hi, I'm CHAN</h1>
-      <p>全栈开发者 / 产品设计师，热爱用代码构建优雅且有人情味的产品体验。</p>
+      <p class="hero-subtitle" id="typewriter"></p>
     </div>
   </section>
 
@@ -500,6 +515,28 @@
         requestAnimationFrame(animate);
       }
       animate();
+
+      // Typewriter effect
+      const typewriter = document.getElementById('typewriter');
+      const text = '我是谁？我是AI世界虚拟人的天花板，现实中的菜鸟。不服请打李艳婷。';
+      let i = 0;
+      const speed = 90;
+
+      function type() {
+        if (i < text.length) {
+          typewriter.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+          i++;
+          setTimeout(type, speed);
+        } else {
+          typewriter.innerHTML = text + '<span class="cursor"></span>';
+          setTimeout(function() {
+            const cursor = typewriter.querySelector('.cursor');
+            if (cursor) cursor.style.display = 'none';
+          }, 2500);
+        }
+      }
+
+      setTimeout(type, 1200);
     })();
   </script>
 </body>
