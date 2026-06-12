@@ -340,23 +340,54 @@
       top: 20px;
       left: 20px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 0.6rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 0.9rem 1.6rem;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: #f8fafc;
       cursor: pointer;
       transition: all 0.3s ease;
       text-decoration: none;
+      animation: nav-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes nav-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(167, 100, 255, 0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(167, 100, 255, 0); }
     }
 
     .nav-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    .nav-hint {
+      position: fixed;
+      top: 78px;
+      left: 24px;
+      z-index: 10;
+      font-size: 0.85rem;
+      color: #c7d2fe;
+      background: rgba(167, 100, 255, 0.15);
+      border: 1px solid rgba(167, 100, 255, 0.3);
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      animation: hint-bounce 1.5s ease-in-out infinite;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .nav-hint.hide {
+      opacity: 0;
+    }
+
+    @keyframes hint-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
     }
 
     .modal-overlay {
@@ -387,6 +418,73 @@
 
     .modal-overlay.active .modal-img {
       transform: scale(1);
+    }
+
+    .spotlight-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .spotlight-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .spotlight-content {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 3rem 3.5rem;
+      transform: scale(0.8);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      text-align: center;
+    }
+
+    .spotlight-overlay.active .spotlight-content {
+      transform: scale(1.6);
+    }
+
+    .spotlight-content .contact-item {
+      font-size: 1.3rem;
+      color: #f8fafc;
+      margin-bottom: 1rem;
+    }
+
+    .spotlight-content .contact-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .ktv-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: ktv-flash 0.3s infinite;
+    }
+
+    .ktv-overlay.active {
+      opacity: 0.25;
+    }
+
+    @keyframes ktv-flash {
+      0% { background: rgba(255, 0, 0, 0.3); }
+      20% { background: rgba(0, 255, 0, 0.3); }
+      40% { background: rgba(0, 0, 255, 0.3); }
+      60% { background: rgba(255, 0, 255, 0.3); }
+      80% { background: rgba(255, 255, 0, 0.3); }
+      100% { background: rgba(0, 255, 255, 0.3); }
     }
 
     .contact {
@@ -468,6 +566,7 @@
 </head>
 <body>
   <a class="nav-btn" id="navBtn">同城代打</a>
+  <div class="nav-hint" id="navHint">👇 点这里</div>
 
   <div class="particles" id="particles">
     <div class="particle"></div>
@@ -551,9 +650,24 @@
     <p>&copy; 2025 CHAN</p>
   </footer>
 
+  <div class="spotlight-overlay" id="spotlightOverlay">
+    <div class="spotlight-content">
+      <div class="contact-item">
+        <span class="icon">👤</span>
+        <span>李艳婷（鸽鸽）</span>
+      </div>
+      <div class="contact-item">
+        <span class="icon">📞</span>
+        <span>131066***367</span>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="modalOverlay">
     <img class="modal-img" src="come-hit-me.png" alt="来打我呀">
   </div>
+
+  <div class="ktv-overlay" id="ktvOverlay"></div>
 
   <script>
     (function() {
@@ -598,20 +712,30 @@
 
       setTimeout(type, 1200);
 
-      // Nav button: scroll to contact and show modal
+      // Nav button: scroll to contact, spotlight, then modal + ktv
       const navBtn = document.getElementById('navBtn');
+      const navHint = document.getElementById('navHint');
       const modalOverlay = document.getElementById('modalOverlay');
+      const spotlightOverlay = document.getElementById('spotlightOverlay');
+      const ktvOverlay = document.getElementById('ktvOverlay');
 
       navBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        navHint.classList.add('hide');
         document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         setTimeout(function() {
-          modalOverlay.classList.add('active');
-        }, 600);
+          spotlightOverlay.classList.add('active');
+          setTimeout(function() {
+            spotlightOverlay.classList.remove('active');
+            modalOverlay.classList.add('active');
+            ktvOverlay.classList.add('active');
+          }, 3000);
+        }, 700);
       });
 
       modalOverlay.addEventListener('click', function() {
         modalOverlay.classList.remove('active');
+        ktvOverlay.classList.remove('active');
       });
     })();
   </script>
