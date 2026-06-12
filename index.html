@@ -730,17 +730,26 @@
 
       setTimeout(type, 1200);
 
+      // Nav button: scroll to contact, magnifier spotlight, then modal + ktv
+      const navBtn = document.getElementById('navBtn');
+      const modalOverlay = document.getElementById('modalOverlay');
+      const spotlightOverlay = document.getElementById('spotlightOverlay');
+      const ktvOverlay = document.getElementById('ktvOverlay');
+
       // Danmaku hint
+      const navBtnRect = navBtn.getBoundingClientRect();
+      const targetLeft = navBtnRect.left + navBtnRect.width / 2;
+
       function spawnDanmaku() {
         const el = document.createElement('div');
         el.className = 'danmaku';
         el.textContent = '👈 点这里';
         const size = 0.85 + Math.random() * 0.9;
         el.style.fontSize = size + 'rem';
-        const top = 5 + Math.random() * 88;
-        el.style.top = top + '%';
+        const top = 25 + Math.random() * 100;
+        el.style.top = top + 'px';
         el.style.right = '-160px';
-        const flyDist = -(window.innerWidth * 0.55 + Math.random() * 200) + 'px';
+        const flyDist = -(window.innerWidth - targetLeft + 100) + 'px';
         el.style.setProperty('--fly-distance', flyDist);
         document.body.appendChild(el);
         setTimeout(function() { el.remove(); }, 2500);
@@ -748,12 +757,6 @@
 
       const danmakuInterval = setInterval(spawnDanmaku, 650);
       spawnDanmaku();
-
-      // Nav button: scroll to contact, magnifier spotlight, then modal + ktv
-      const navBtn = document.getElementById('navBtn');
-      const modalOverlay = document.getElementById('modalOverlay');
-      const spotlightOverlay = document.getElementById('spotlightOverlay');
-      const ktvOverlay = document.getElementById('ktvOverlay');
 
       navBtn.addEventListener('click', function(e) {
         e.preventDefault();
