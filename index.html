@@ -320,6 +320,72 @@
       animation: none;
     }
 
+    .contact {
+      position: relative;
+      z-index: 1;
+      padding: 0 2rem 120px;
+    }
+
+    .contact h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-divider {
+      width: 60px;
+      height: 3px;
+      margin: 0 auto 3rem;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #a764ff, #50dcff, #ff82c8);
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      max-width: 420px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-size: 1.05rem;
+      color: #e2e8f0;
+    }
+
+    .contact-item .icon {
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 0 2rem 2.5rem;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+      color: #64748b;
+      opacity: 1;
+      transform: none;
+      animation: none;
+      margin: 0;
+    }
+
     @media (max-width: 768px) {
       .skills-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -394,6 +460,25 @@
       </div>
     </div>
   </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <div class="contact-divider"></div>
+    <div class="contact-card">
+      <div class="contact-item">
+        <span class="icon">👤</span>
+        <span>李艳婷（鸽鸽）</span>
+      </div>
+      <div class="contact-item">
+        <span class="icon">📞</span>
+        <span>131066***367</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 CHAN</p>
+  </footer>
 
   <script>
     (function() {
